@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class BasketScreen extends StatefulWidget {
   const BasketScreen({super.key});
@@ -16,6 +17,7 @@ class _BasketScreenState extends State<BasketScreen> {
   int _cake_counter = 0;
   int _tea_counter = 0;
   String _text = 'Пицца — традиционное итальянское блюдо, изначально в виде круглой дрожжевой лепёшки, выпекаемой с уложенной сверху начинкой из томатного соуса, сыра и зачастую других ингредиентов, таких как мясо, овощи, грибы и прочие продукты';
+  String _url = 'https://raw.githubusercontent.com/BerestaCoder/Crossplatform-7/main/img/pizza.png';
 
   void _incrementItem() {
     setState(() {
@@ -44,18 +46,21 @@ class _BasketScreenState extends State<BasketScreen> {
   void _clickPizza() {
     setState(() {
       _text = 'Пицца — традиционное итальянское блюдо, изначально в виде круглой дрожжевой лепёшки, выпекаемой с уложенной сверху начинкой из томатного соуса, сыра и зачастую других ингредиентов, таких как мясо, овощи, грибы и прочие продукты';
+      _url = 'https://raw.githubusercontent.com/BerestaCoder/Crossplatform-7/main/img/pizza.png';
       chosenItem = MyItem.pizza;
     });
   }
   void _clickCake() {
     setState(() {
       _text = 'Торт — кондитерское изделие, состоящее из нескольких коржей, пропитанных кремом или джемом. Сверху торт обычно украшают кремом, глазурью или фруктами.';
+      _url = 'https://raw.githubusercontent.com/BerestaCoder/Crossplatform-7/main/img/cake.png';
       chosenItem = MyItem.cake;
     });
   }
   void _clickTea() {
     setState(() {
       _text = 'Чай — напиток, получаемый варкой, завариванием и/или настаиванием листа чайного куста, который предварительно подготавливается специальным образом.';
+      _url = 'https://raw.githubusercontent.com/BerestaCoder/Crossplatform-7/main/img/coffe.png';
       chosenItem = MyItem.tea;
     });
   }
@@ -101,7 +106,16 @@ class _BasketScreenState extends State<BasketScreen> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Theme.of(context).colorScheme.secondaryContainer,
                               ),
-                              child: Text('$_text')
+                              child: Column(
+                                children: [
+                                  Text('$_text'),
+                                  CachedNetworkImage(
+                                    imageUrl: _url,
+                                    progressIndicatorBuilder: (c, url, p) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                  ),
+                                ],
+                              )
                           ),
                           const SizedBox(
                             height: 20,
